@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import TOC from './components/TOC';
 import Content from './components/Content';
-import Subject from './components/Subject';
+// import Subject from './components/Subject';
 import './App.css';
 
 class App extends Component {
@@ -44,7 +44,11 @@ class App extends Component {
               console.log(e)
               e.preventDefault() // 이벤트의 기본동작을 막아줌 여기서는 새로고침을 막아줌
               // debugger 브라우저에서 실행을 멈춰줌
-            }}>{this.state.subject.title}</a></h1>
+              // this.state.mode = 'welcome'
+              this.setState({
+                mode: 'welcome'
+              })
+            }.bind(this)}>{this.state.subject.title}</a></h1>
             {this.state.subject.subTitle}
         </header>
         <TOC data={this.state.contents}></TOC>
