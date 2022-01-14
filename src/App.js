@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import TOC from './components/TOC';
 import Content from './components/Content';
-// import Subject from './components/Subject';
+import Subject from './components/Subject';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      mode: 'welcome',
+      mode: 'read',
       subject: {
         title: 'WEB',
         subTitle: 'world wide web'
@@ -35,11 +35,15 @@ class App extends Component {
     }
     return (
       <div className="App">
-        {/* <Subject 
+        <Subject 
           title={this.state.subject.title} 
-          subTitle={this.state.subject.subTitle}>
-        </Subject> */}
-        <header>
+          subTitle={this.state.subject.subTitle}
+          onChangePage={function() {
+            this.setState({mode: 'welcome'})
+          }.bind(this)}
+        >
+        </Subject>
+        {/* <header>
             <h1><a href="/" onClick={function(e){
               console.log(e)
               e.preventDefault() // 이벤트의 기본동작을 막아줌 여기서는 새로고침을 막아줌
@@ -50,7 +54,7 @@ class App extends Component {
               })
             }.bind(this)}>{this.state.subject.title}</a></h1>
             {this.state.subject.subTitle}
-        </header>
+        </header> */}
         <TOC data={this.state.contents}></TOC>
         <Content title={_title} desc={_desc}></Content>
       </div>
