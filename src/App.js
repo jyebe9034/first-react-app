@@ -9,6 +9,7 @@ class App extends Component {
     super(props)
     this.state = {
       mode: 'read',
+      selected_content_id: 2,
       subject: {
         title: 'WEB',
         subTitle: 'world wide web'
@@ -30,8 +31,9 @@ class App extends Component {
       _title = this.state.welcome.title
       _desc = this.state.welcome.desc
     } else if (this.state.mode === 'read') {
-      _title = this.state.contents[0].title
-      _desc = this.state.contents[0].desc
+      const selected = this.state.contents.filter(item => item.id === this.state.selected_content_id)
+      _title = selected[0].title
+      _desc = selected[0].desc
     }
     return (
       <div className="App">
@@ -55,7 +57,15 @@ class App extends Component {
             }.bind(this)}>{this.state.subject.title}</a></h1>
             {this.state.subject.subTitle}
         </header> */}
-        <TOC data={this.state.contents}></TOC>
+        <TOC 
+          onChangePage={function(id) {
+            this.setState({
+              mode: 'read',
+              selected_content_id: Number(id)
+            })
+          }.bind(this)} 
+          data={this.state.contents}
+        ></TOC>
         <Content title={_title} desc={_desc}></Content>
       </div>
     );
