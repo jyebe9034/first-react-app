@@ -1,10 +1,12 @@
 import { Component } from 'react';
 import TOC from './components/TOC';
 import ReadContent from './components/ReadContent';
+import CreateContent from './components/CreateContent';
+import UpdateContent from './components/UpdateContent';
 import Subject from './components/Subject';
 import Control from './components/Control';
 import './App.css';
-import CreateContent from './components/CreateContent';
+
 
 class App extends Component {
   constructor(props) {
@@ -28,7 +30,7 @@ class App extends Component {
       ]
     }
   }
-  render() {
+  getContent() {
     let _title, _desc, _article = null
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title
@@ -58,7 +60,27 @@ class App extends Component {
         })
         console.log(_title, _desc)
       }.bind(this)}></CreateContent>
+    } else if (this.state.mode === 'update') {
+      const selected = this.state.contents.filter(item => item.id === this.state.selected_content_id)
+      _title = selected[0].title
+      _desc = selected[0].desc
+      _article = <UpdateContent title={_title} desc={_desc} onSubmit={function(_title, _desc){
+        this.max_content_id = this.max_content_id + 1
+        let _contents = this.state.contents.concat({
+          id: this.max_content_id,
+          title: _title,
+          desc: _desc
+        })
+        this.setState({
+          contents: _contents
+        })
+        console.log(_title, _desc)
+      }.bind(this)}></UpdateContent>
     }
+    return _article
+  }
+  render() {
+    
     return (
       <div className="App">
         <Subject 
@@ -93,7 +115,7 @@ class App extends Component {
         <Control onChangeMode={function(_mode){
           this.setState({mode: _mode})
         }.bind(this)}></Control>
-        {_article}
+        {this.getContent()}
       </div>
     );
   }
