@@ -1,8 +1,20 @@
 import { Component } from 'react';
 
 class UpdateContent extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      id: this.props.data.id,
+      title: this.props.data.title,
+      desc: this.props.data.desc
+    }
+    this.inputFormHandler = this.inputFormHandler.bind(this)
+  }
+  inputFormHandler(e) {
+    this.setState({[e.target.name]: e.target.value})
+  }
   render() {
-    console.log(this.props.title)
+    console.log(this.props.data.title)
     return (
     <article>
       <h2>Update</h2>
@@ -10,16 +22,29 @@ class UpdateContent extends Component {
         onSubmit={function(e){
           e.preventDefault()
           this.props.onSubmit(
-            e.target.title.value,
-            e.target.desc.value
+            this.state.id,
+            this.state.title,
+            this.state.desc
           )
         }.bind(this)}
       >
+        <input type='hidden' name='id' value={this.state.id}></input>
         <p>
-          <input type='input' name='title' placeholder='title' />
+          <input 
+            type='input' 
+            name='title' 
+            placeholder='title'
+            value={this.state.title}
+            onChange={this.inputFormHandler}
+          />
         </p>
         <p>
-          <textarea name='desc' placeholder='description' />
+          <textarea 
+            name='desc' 
+            placeholder='description' 
+            value={this.state.desc}
+            onChange={this.inputFormHandler}
+          />
         </p>
         <p>
           <input type='submit' />
